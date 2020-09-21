@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+  - name: Sync S3 bucket
+    s3_sync:
+      bucket: strukbucket
+      file_root: roles/app/files
+      mime_map:
+        .yml: application/text
+        .json: application/text
+      file_change_strategy: force
+      permission: public-read
+      cache_control: "public, max-age=31536000"
+      include: "*"
+      exclude: "*.txt,.*"
